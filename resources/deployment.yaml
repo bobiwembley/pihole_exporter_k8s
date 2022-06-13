@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pihole-deployment
+  labels:
+    app: pihole-exporter
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: pihole-exporter
+  template:
+    metadata:
+      labels:
+        app: pihole-exporter
+    spec:
+      containers:
+      - name: pihole-exporter
+        image: ekofr/pihole-exporter:latest
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: PIHOLE_HOSTNAME
+          value: "IP_FROM_YOUR_PIHOLE"
+        - name: PORT
+          value: "9617"
+        ports:
+        - containerPort: 80
